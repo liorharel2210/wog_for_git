@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template
-from Utils_file_utils import read_score_from_file
+from Utils_file_utils import SCORES_FILE_NAME
+#from Utils_file_utils import read_score_from_file
 
 app = Flask(__name__)
 
