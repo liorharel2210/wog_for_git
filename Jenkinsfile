@@ -1,15 +1,6 @@
+
 pipeline {
     agent any
-    
-    options {
-        // Insert the properties block here
-        properties([
-            [$class: 'ContainerSetDefinition', 
-             buildHostImage: <object of type it.dockins.dockerslaves.spec.ImageIdContainerDefinition>, 
-             sideContainers: []
-            ]
-        ])
-    }
     
     stages {
         stage('Checkout') {
@@ -20,13 +11,15 @@ pipeline {
         
         stage('Build') {
             steps {
-                sh 'docker build -t myapp .'
+                sh docker version
+                   docker info
+                   docker build -t myapp .
             }
         }
         
         stage('Run') {
             steps {
-                sh 'docker run -d -p 8777:8777 -v $(pwd)/Scores.txt:/Scores.txt myapp'
+                sh docker-compose up
             }
         }
         
