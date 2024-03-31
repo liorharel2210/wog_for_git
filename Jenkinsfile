@@ -32,7 +32,7 @@ pipeline {
         //         sh 'docker stop $(docker ps -q --filter ancestor=myapp)'
         //         sh 'docker tag myapp harelkopops/myapp:latest'
         //         sh 'docker push harelkopops/myapp:latest'
-            }
+        
         }
     }
 }
