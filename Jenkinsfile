@@ -11,15 +11,15 @@ pipeline {
         
         stage('Build') {
             steps {
-                sh docker version
-                   docker info
-                   docker build -t myapp .
+                sh 'docker version'
+                   'docker info'
+                   'docker build -t myapp .'
             }
         }
         
         stage('Run') {
             steps {
-                sh docker-compose up
+                sh 'docker-compose up'
             }
         }
         
