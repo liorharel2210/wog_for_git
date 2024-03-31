@@ -11,15 +11,13 @@ pipeline {
         
         stage('Build') {
             steps {
-                sh 'docker version'
-                   'docker info'
-                   'docker build -t myapp .'
+                sh docker.build('myapp')
             }
         }
         
         stage('Run') {
             steps {
-                sh 'docker-compose up'
+                sh 'docker run -d -p 8777:8777 -v $(pwd)/Scores.txt:/Scores.txt myapp'
             }
         }
         
