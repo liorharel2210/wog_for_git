@@ -29,8 +29,8 @@ pipeline {
         stage('Finalize') {
             steps {
                 sh 'docker stop $(docker ps -q --filter ancestor=myapp)'
-                sh 'docker tag myapp your_dockerhub_username/myapp:latest'
-                sh 'docker push your_dockerhub_username/myapp:latest'
+                sh 'docker tag myapp harelkopops/myapp:latest'
+                sh 'docker push harelkopops/myapp:latest'
             }
         }
     }
