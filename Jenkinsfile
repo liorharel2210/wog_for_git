@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your/repository.git'
+                git 'https://github.com/liorharel2210/wog_for_git.git'
             }
         }
         
@@ -22,7 +22,7 @@ pipeline {
         
         stage('Test') {
             steps {
-                sh 'python e2e.py'
+                sh 'python e2e2.py'
             }
         }
         
