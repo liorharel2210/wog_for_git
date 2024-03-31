@@ -1,6 +1,15 @@
-
 pipeline {
     agent any
+    
+    options {
+        // Insert the properties block here
+        properties([
+            [$class: 'ContainerSetDefinition', 
+             buildHostImage: <object of type it.dockins.dockerslaves.spec.ImageIdContainerDefinition>, 
+             sideContainers: []
+            ]
+        ])
+    }
     
     stages {
         stage('Checkout') {
