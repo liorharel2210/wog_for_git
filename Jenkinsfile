@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/your/repository.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'docker build -t myapp .'
+            }
+        }
+        
+        stage('Run') {
+            steps {
+                sh 'docker run -d -p 8777:8777 -v $(pwd)/Scores.txt:/Scores.txt myapp'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'python e2e.py'
+            }
+        }
+        
+        stage('Finalize') {
+            steps {
+                sh 'docker stop $(docker ps -q --filter ancestor=myapp)'
+                sh 'docker tag myapp your_dockerhub_username/myapp:latest'
+                sh 'docker push your_dockerhub_username/myapp:latest'
+            }
+        }
+    }
+}
