@@ -2,23 +2,15 @@ pipeline {
     agent any
     
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
+                // Checkout your source code from GitHub
                 git branch: 'main', url: 'https://github.com/liorharel2210/wog_for_git.git'
-            }
-        }
-        
-        stage('Build Docker Image') {
-            steps {
+                
+                // Build Docker image using Dockerfile
                 script {
-                    dockerImage = docker.build('myapp', '-f Dockerfile .')
+                    docker.build("python:3.9")
                 }
-            }
-        }
-        
-        stage('Run Docker Compose') {
-            steps {
-                sh 'docker-compose up -d'
             }
         }
     }
