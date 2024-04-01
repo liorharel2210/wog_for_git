@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools{
-        maven 'Dockertest'
+        Docker 'Dockertest'
     }
     stages{
         stage('Dockertest'){
