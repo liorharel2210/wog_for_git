@@ -1,3 +1,4 @@
+properties([[$class: 'ContainerSetDefinition', buildHostImage: <object of type it.dockins.dockerslaves.spec.ImageIdContainerDefinition>, sideContainers: []]])
 pipeline {
     agent any
     environment {
