@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/yourusername/yourrepository.git'
+                git branch: 'main', url: 'https://github.com/liorharel2210/wog_for_git.git'
             }
         }
         
