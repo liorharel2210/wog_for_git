@@ -25,4 +25,5 @@ pipeline {
                 sh 'docker push harelkop/wog:$1.0.1'
             }
         }
+    }
 }
