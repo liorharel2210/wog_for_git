@@ -15,8 +15,13 @@ pipeline {
                         // Install Docker without sudo
                         sh '''
                             curl -fsSL https://get.docker.com -o get-docker.sh
-                            sh get-docker.sh
+                            chmod +x get-docker.sh
+                            ./get-docker.sh
                             rm get-docker.sh
+                            
+                            // curl -fsSL https://get.docker.com -o get-docker.sh
+                            // sh get-docker.sh
+                            // rm get-docker.sh
                         '''
                     } else {
                         echo 'Docker is already installed.'
