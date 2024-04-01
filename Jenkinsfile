@@ -10,7 +10,7 @@ pipeline {
                 }
         }
 
-        stage('Build docker image') {
+        stage('Build Docker image') {
             steps {
                 sh 'docker build -t harelkop/wog:$BUILD_NUMBER . '
             }
