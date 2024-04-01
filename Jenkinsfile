@@ -7,22 +7,17 @@ pipeline {
     
     stages {
         stage('Check Docker') {
+            when {
+                // Skip Docker installation if running on macOS
+                expression { !isMacOS() }
+            }
             steps {
                 script {
                     def dockerInstalled = sh(script: 'command -v docker', returnStatus: true) == 0
                     if (!dockerInstalled) {
-                        echo 'Docker is not installed. Installing Docker...'
-                        // Install Docker without sudo
-                        sh '''
-                            curl -fsSL https://get.docker.com -o get-docker.sh
-                            chmod +x get-docker.sh
-                            ./get-docker.sh
-                            rm get-docker.sh
-                            
-                            // curl -fsSL https://get.docker.com -o get-docker.sh
-                            // sh get-docker.sh
-                            // rm get-docker.sh
-                        '''
+                        echo 'Docker is not installed. Please install Docker manually.'
+                        currentBuild.result = 'ABORTED'
+                        return
                     } else {
                         echo 'Docker is already installed.'
                     }
@@ -36,24 +31,10 @@ pipeline {
             }
         }
         
-        stage('Build Docker image') {
-            steps {
-                sh "docker build -t harelkop/wog:\$BUILD_NUMBER ."
-            }
-        }
-        
-        stage('Login to DockerHub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-harelkop', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
-                    sh "echo \$DOCKERHUB_PASSWORD | docker login -u \$DOCKERHUB_USERNAME --password-stdin"
-                }
-            }
-        }
-        
-        stage('Push image') {
-            steps {
-                sh "docker push harelkop/wog:\$BUILD_NUMBER"
-            }
-        }
+        // Add other stages here...
     }
+}
+
+def isMacOS() {
+    return (env.PATH?.contains('/usr/bin') || env.PATH?.contains('/usr/sbin')) && env.PATH?.contains('/sbin') && env.PATH?.contains('/bin')
 }
