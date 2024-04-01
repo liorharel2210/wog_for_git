@@ -31,7 +31,7 @@ pipeline {
             }
         }
         
-        // Add other stages here...
+        // ...
     }
 }
 
