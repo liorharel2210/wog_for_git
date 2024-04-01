@@ -12,7 +12,7 @@ pipeline {
 
         stage('Build docker image') {
             steps {
-                sh 'docker build -t harelkop/wog:$1.0.1 . '
+                sh 'docker build -t harelkop/wog:$BUILD_NUMBER . '
             }
         }
         stage('login to dockerhub') {
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('push image') {
             steps{
-                sh 'docker push harelkop/wog:$1.0.1'
+                sh 'docker push harelkop/wog:$BUILD_NUMBER'
             }
         }
     }
