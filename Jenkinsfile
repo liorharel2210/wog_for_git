@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
     
@@ -10,32 +11,28 @@ pipeline {
         
         stage('Build') {
             steps {
-                script {
-                    docker.build('myapp')
-                }
+                sh 'docker build -t myapp .'
             }
         }
         
         stage('Run') {
             steps {
-                script {
-                    docker.withRun('-d -p 8777:8777 -v $(pwd)/Scores.txt:/Scores.txt myapp') { c ->
-                        // Run any additional setup commands if needed
-                    }
-                }
+                sh 'docker run -d -p 8777:8777 -v $(pwd)/Scores.txt:/Scores.txt myapp'
             }
         }
         
-        // Add more stages as needed
-        
-        stage('Cleanup') {
+        stage('Test') {
             steps {
-                script {
-                    docker.image('myapp').stop()
-                    docker.image('myapp').remove()
-                }
+                sh 'python e2e2.py'
+            }
+        }
+        
+        stage('Finalize') {
+            steps {
+                sh 'docker stop $(docker ps -q --filter ancestor=myapp)'
+                sh 'docker tag myapp harelkopops/myapp:latest'
+                sh 'docker push harelkopops/myapp:latest'
             }
         }
     }
 }
-
