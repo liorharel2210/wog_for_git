@@ -3,6 +3,7 @@ pipeline {
     
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-harelkop')
+        dockerImage =''
     }
     
     stages {
@@ -64,7 +65,9 @@ pipeline {
         
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t wogfinal:$BUILD_NUMBER .'
+                script {
+                    dockerImage = docker.build
+                }
             }
         }
         
