@@ -66,7 +66,7 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 script {
-                    dockerImage = docker.build
+                    dockerImage = docker.build('wogfinal:$BUILD_NUMBER)
                 }
             }
         }
