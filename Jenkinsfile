@@ -66,7 +66,7 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 script {
-                    dockerImage = docker.build('wogfinal')
+                    dockerImage = docker.build('wogfinal:1.0.1 .')
                 }
             }
         }
