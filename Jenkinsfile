@@ -1,12 +1,5 @@
 pipeline {
     agent any
-        //docker {
-            //
-            //image 'docker:latest'
-            // 
-            //args '-v /Applications/Docker.app/'
-        
-    
     
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-harelkop')
@@ -16,18 +9,23 @@ pipeline {
         stage('Check Docker') {
             steps {
                 script {
-                    def dockerInstalled = sh(script: 'command -v docker', returnStatus: true) == 0
-                    if (!dockerInstalled) {
-                        echo 'Docker is not installed. Installing Docker...'
-                        // Install Docker without sudo
-                        sh '''
-                            curl -fsSL https://get.docker.com -o get-docker.sh
-                            chmod +x get-docker.sh
-                            ./get-docker.sh
-                            rm get-docker.sh
-                        '''
+                    def isMacOS = isUnix() && env.PATH.contains('/usr/bin')
+                    if (isMacOS) {
+                        echo 'Skipping Docker installation on macOS. Ensure Docker Desktop is installed.'
                     } else {
-                        echo 'Docker is already installed.'
+                        def dockerInstalled = sh(script: 'command -v docker', returnStatus: true) == 0
+                        if (!dockerInstalled) {
+                            echo 'Docker is not installed. Installing Docker...'
+                            // Install Docker without sudo
+                            sh '''
+                                curl -fsSL https://get.docker.com -o get-docker.sh
+                                chmod +x get-docker.sh
+                                ./get-docker.sh
+                                rm get-docker.sh
+                            '''
+                        } else {
+                            echo 'Docker is already installed.'
+                        }
                     }
                 }
             }
@@ -70,8 +68,5 @@ pipeline {
                 sh 'docker-compose up'
             }
         }
-        
-        //
-        
     }
 }
