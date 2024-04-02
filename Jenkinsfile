@@ -1,12 +1,12 @@
 pipeline {
-    agent any {
+    agent any
         //docker {
             //
             //image 'docker:latest'
             // 
             //args '-v /Applications/Docker.app/'
-        }
-    }
+        
+    
     
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-harelkop')
