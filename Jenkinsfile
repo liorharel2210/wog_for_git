@@ -26,18 +26,17 @@ pipeline {
         }
         
         stage('Check Docker Compose') {
+            when {
+                // Skip Docker Compose installation if running on macOS
+                expression { !isMacOS() }
+            }
             steps {
                 script {
                     def dockerComposeInstalled = sh(script: 'command -v docker-compose', returnStatus: true) == 0
                     if (!dockerComposeInstalled) {
-                        echo 'Docker Compose is not installed. Installing Docker Compose...'
-                        // Install Docker Compose without sudo
-                        sh '''
-                            curl -fsSL https://get.docker.com -o get-docker.sh
-                            chmod +x get-docker.sh
-                            ./get-docker.sh
-                            rm get-docker.sh
-                        '''
+                        echo 'Docker Compose is not installed. Please install Docker Compose manually.'
+                        currentBuild.result = 'ABORTED'
+                        return
                     } else {
                         echo 'Docker Compose is already installed.'
                     }
