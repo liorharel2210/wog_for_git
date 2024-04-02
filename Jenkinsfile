@@ -52,7 +52,7 @@ pipeline {
         
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t your_image_name:$BUILD_NUMBER .'
+                sh 'docker build -t wogfinal:$BUILD_NUMBER .'
             }
         }
         
@@ -62,7 +62,7 @@ pipeline {
             }
         }
         
-        // Add more stages as needed
+        //
         
     }
 }
