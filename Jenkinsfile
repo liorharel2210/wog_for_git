@@ -13,14 +13,39 @@ pipeline {
     }
     
     stages {
+        stage('Check Docker') {
+            steps {
+                script {
+                    def dockerInstalled = sh(script: 'command -v docker', returnStatus: true) == 0
+                    if (!dockerInstalled) {
+                        echo 'Docker is not installed. Installing Docker...'
+                        // Install Docker without sudo
+                        sh '''
+                            curl -fsSL https://get.docker.com -o get-docker.sh
+                            chmod +x get-docker.sh
+                            ./get-docker.sh
+                            rm get-docker.sh
+                        '''
+                    } else {
+                        echo 'Docker is already installed.'
+                    }
+                }
+            }
+        }
+        
         stage('Check Docker Compose') {
             steps {
                 script {
                     def dockerComposeInstalled = sh(script: 'command -v docker-compose', returnStatus: true) == 0
                     if (!dockerComposeInstalled) {
-                        echo 'Docker Compose is not installed. Please install Docker Compose manually.'
-                        currentBuild.result = 'ABORTED'
-                        return
+                        echo 'Docker Compose is not installed. Installing Docker Compose...'
+                        // Install Docker Compose without sudo
+                        sh '''
+                            curl -fsSL https://get.docker.com -o get-docker.sh
+                            chmod +x get-docker.sh
+                            ./get-docker.sh
+                            rm get-docker.sh
+                        '''
                     } else {
                         echo 'Docker Compose is already installed.'
                     }
