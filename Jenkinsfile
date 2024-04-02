@@ -34,18 +34,23 @@ pipeline {
         stage('Check Docker Compose') {
             steps {
                 script {
-                    def dockerComposeInstalled = sh(script: 'command -v docker-compose', returnStatus: true) == 0
-                    if (!dockerComposeInstalled) {
-                        echo 'Docker Compose is not installed. Installing Docker Compose...'
-                        // Install Docker Compose without sudo
-                        sh '''
-                            curl -fsSL https://get.docker.com -o get-docker.sh
-                            chmod +x get-docker.sh
-                            ./get-docker.sh
-                            rm get-docker.sh
-                        '''
+                    def isMacOS = isUnix() && env.PATH.contains('/usr/bin')
+                    if (!isMacOS) {
+                        def dockerComposeInstalled = sh(script: 'command -v docker-compose', returnStatus: true) == 0
+                        if (!dockerComposeInstalled) {
+                            echo 'Docker Compose is not installed. Installing Docker Compose...'
+                            // Install Docker Compose without sudo
+                            sh '''
+                                curl -fsSL https://get.docker.com -o get-docker.sh
+                                chmod +x get-docker.sh
+                                ./get-docker.sh
+                                rm get-docker.sh
+                            '''
+                        } else {
+                            echo 'Docker Compose is already installed.'
+                        }
                     } else {
-                        echo 'Docker Compose is already installed.'
+                        echo 'Skipping Docker Compose installation on macOS. Ensure Docker Desktop is installed.'
                     }
                 }
             }
