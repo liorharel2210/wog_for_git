@@ -1,10 +1,10 @@
 pipeline {
-    agent {
-        docker {
+    agent any {
+        //docker {
             //
-            image 'docker:latest'
+            //image 'docker:latest'
             // 
-            args '-v /Applications/Docker.app/'
+            //args '-v /Applications/Docker.app/'
         }
     }
     
