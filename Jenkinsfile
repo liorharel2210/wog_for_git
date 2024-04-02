@@ -6,4 +6,17 @@ pipeline {
     }
     stages {
         stage('Checkout') {
-            
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/liorharel2210/wog_for_git.git']])
+            }
+        }
+
+        stage('Build Docker image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                }
+            }
+        }
+    }
+}
