@@ -1,4 +1,4 @@
-properties([[$class: 'ContainerSetDefinition', buildHostImage: <object of type it.dockins.dockerslaves.spec.ImageIdContainerDefinition>, sideContainers: []], githubProjectProperty(displayName: 'wog', projectUrlStr: 'https://github.com/liorharel2210/wog_for_git.git/')])
+properties([[$class: 'ContainerSetDefinition', buildHostImage: <object of type it.dockins.dockerslaves.spec.ImageIdContainerDefinition>, sideContainers: []], githubProjectProperty(displayName: 'wog', projectUrlStr: 'https://github.com/liorharel2210/wog_for_git.git/')]
 pipeline {
     agent any
 
