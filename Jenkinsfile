@@ -1,25 +1,41 @@
-properties([[$class: 'ContainerSetDefinition', buildHostImage: <object of type it.dockins.dockerslaves.spec.ImageIdContainerDefinition>, sideContainers: []], githubProjectProperty(displayName: 'wog', projectUrlStr: 'https://github.com/liorharel2210/wog_for_git.git/')]
+
 pipeline {
     agent any
-
-    // stages {
-    //     stage('Checkout') {
-    //         steps {
-    //             checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[name: 'wog', url: 'https://github.com/liorharel2210/wog_for_git.git']])
-    //         }
-    //     }
-
-    //     stage('Check Docker Version') {
-    //         steps {
-    //             sh 'docker --version'
-        stage('Build Docker image') {
+    
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub-harelkop')
+    }
+    
+    stages {
+        stage('Check Docker') {
+            when {
+                // Skip Docker installation if running on macOS
+                expression { !isMacOS() }
+            }
             steps {
                 script {
-                    dockerImage = docker.build('wogfinal:1.0.1'
-                
-                    
-                
+                    def dockerInstalled = sh(script: 'command -v docker', returnStatus: true) == 0
+                    if (!dockerInstalled) {
+                        echo 'Docker is not installed. Please install Docker manually.'
+                        currentBuild.result = 'ABORTED'
+                        return
+                    } else {
+                        echo 'Docker is already installed.'
+                    }
+                }
             }
         }
+        
+        stage('SCM Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/liorharel2210/wog_for_git.git'
+            }
+        }
+        
+        // ...
     }
+}
+
+def isMacOS() {
+    return (env.PATH?.contains('/usr/bin') || env.PATH?.contains('/usr/sbin')) && env.PATH?.contains('/sbin') && env.PATH?.contains('/bin')
 }
