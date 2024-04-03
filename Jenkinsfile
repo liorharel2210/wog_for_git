@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        dockerImage = ''
-    }
     stages {
         stage('Checkout') {
             steps {
@@ -11,11 +8,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker image') {
+        stage('Check Docker Version') {
             steps {
-                script {
-                    dockerImage = docker.build('wogfinal:1.0.1')
-                }
+                sh 'docker --version'
+        
+                
+                    
+                
             }
         }
     }
