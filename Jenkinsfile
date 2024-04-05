@@ -1,22 +1,28 @@
 pipeline {
     agent any
-    
-    
-        
-        stage('SCM Checkout') {
+
+    stages {
+        stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[name: 'wog', url: 'https://github.com/liorharel2210/wog_for_git.git']])
+                // Checkout the Git repository
+                git branch: 'main', url: 'https://github.com/liorharel2210/wog_for_git.git
             }
         }
-        
         stage('Build Docker Image') {
             steps {
+                // Build Docker image using the Dockerfile in the repository
                 script {
-                    
-                    
-                        // Build Docker image using Dockerfile
-                        sh 'docker build -t wogfinalapp:1.1.4 .'
-                    }
+                    docker.build('wogfinal', '-f Dockerfile .')
                 }
             }
         }
+        stage('Deploy Docker Container') {
+            steps {
+                // Deploy Docker containers using docker-compose.yml
+                script {
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+    }
+}
