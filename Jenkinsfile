@@ -12,8 +12,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Change directory to where Dockerfile is located
-                    dir('/Users/liorharel/wog_for_git') {
+                    
+                    
                         // Build Docker image using Dockerfile
                         sh 'docker build -t wogfinalapp:1.1.4 .'
                     }
