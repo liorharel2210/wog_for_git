@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the Git repository
-                git branch: 'main', url: 'https://github.com/liorharel2210/wog_for_git.git
+                git branch: 'main', url: 'https://github.com/liorharel2210/wog_for_git.git'
             }
         }
         stage('Build Docker Image') {
