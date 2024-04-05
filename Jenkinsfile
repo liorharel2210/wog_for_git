@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 // Build Docker image using the Dockerfile in the repository
-                step {
+                script {
                     sh 'docker build -t wogfinal:1.0.4 .'
                 }
             }
