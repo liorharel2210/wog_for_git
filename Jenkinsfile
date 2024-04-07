@@ -12,7 +12,7 @@ pipeline {
             steps {
                 // Build Docker image using the Dockerfile in the repository
                 script {
-                    sh 'docker build -t wogfinal:1.0.5 .'
+                    sh 'docker build -t wogfinal:1.0.6 .'
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline {
                 }
                 // Push the new image to DockerHub
                 script {
-                    sh 'docker push <your_dockerhub_username>/wogfinal:1.0.5'
+                    sh 'docker push <your_dockerhub_username>/wogfinal:1.0.6'
                 }
             }
         }
