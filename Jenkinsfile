@@ -28,7 +28,7 @@ pipeline {
             steps {
                 // Run selenium tests using e2e.py
                 script {
-                    sh 'python e2e2.py'
+                    sh 'python3 e2e2.py'
                 }
             }
         }
